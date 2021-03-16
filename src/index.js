@@ -15,7 +15,11 @@ client.on('message', msg => {
     if (tickers && tickers.length) {
         var description = "";
         for(t in tickers) {
-            description += "[" + tickers[t] + "](https://finance.yahoo.com/quote/" + tickers[t].substring(1) + "/), ";
+            ticker = tickers[t].substring(1);
+
+            if(ticker.length > 0) {
+                description += "[" + tickers[t] + "](https://finance.yahoo.com/quote/" + ticker + "/), ";
+            }
         }
 
         description = description.slice(0, -2);
@@ -23,7 +27,9 @@ client.on('message', msg => {
         const embed = new MessageEmbed()
             .setDescription(description);
 
-        msg.channel.send(embed);
+        if(description.length > 0) {
+            msg.channel.send(embed);
+        }
     }
 });
 
